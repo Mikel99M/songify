@@ -28,4 +28,5 @@ class Genre extends BaseEntity {
     private Long id;
 
     private String name;
+
 }
