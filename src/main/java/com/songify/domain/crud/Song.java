@@ -24,7 +24,7 @@ import java.time.Instant;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-class Song extends BaseEntity {
+public class Song extends BaseEntity {
 
     @Id
     @GeneratedValue(generator = "song_id_seq", strategy = GenerationType.SEQUENCE)
@@ -38,9 +38,6 @@ class Song extends BaseEntity {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
-    private String artist;
-
     private Instant releaseDate;
 
     private Long duration;
@@ -53,5 +50,12 @@ class Song extends BaseEntity {
 
     public Song(String name) {
         this.name = name;
+    }
+
+    public Song(final String name, final Instant releaseDate, final SongLanguage language, final Long duration) {
+        this.name = name;
+        this.releaseDate = releaseDate;
+        this.language = language;
+        this.duration = duration;
     }
 }

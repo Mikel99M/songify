@@ -1,8 +1,8 @@
-package com.songify.infrastructure.crud.artist;
+package com.songify.infrastructure.crud.album;
 
 import com.songify.domain.crud.SongifyCrudFacade;
-import com.songify.domain.crud.dto.ArtistDto;
-import com.songify.domain.crud.dto.ArtistRequestDto;
+import com.songify.domain.crud.dto.AlbumDto;
+import com.songify.domain.crud.dto.AlbumRequestDto;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,15 +11,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/album")
 @AllArgsConstructor
-@RequestMapping("/artist")
-class ArtistCotnroller {
+class AlbumController {
 
     private final SongifyCrudFacade songifyCrudFacade;
 
     @PostMapping
-    ResponseEntity<ArtistDto> postArtist(@RequestBody ArtistRequestDto artistRequestDto) {
-        ArtistDto artistDto = songifyCrudFacade.addArtist(artistRequestDto);
-        return ResponseEntity.ok(artistDto);
+    public ResponseEntity<AlbumDto> postAlbum(@RequestBody final AlbumRequestDto albumRequestDto) {
+        AlbumDto dto = songifyCrudFacade.addAlbumWithSong(albumRequestDto);
+        return ResponseEntity.ok().body(dto);
     }
+
 }

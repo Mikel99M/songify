@@ -13,6 +13,6 @@ class ArtistAdder {
     ArtistDto addArtist(final String name) {
         Artist artist = new Artist(name);
         Artist savedArtist = artistRepository.save(artist);
-        return new ArtistDto(savedArtist.getName());
+        return new ArtistDto(savedArtist.getId(), savedArtist.getName());
     }
 }
