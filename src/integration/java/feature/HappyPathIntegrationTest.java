@@ -13,10 +13,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class HappyPathIntegrationTest extends BaseIntegrationTest {
+public class HappyPathIntegrationTest extends BaseIntegrationTest {
 
     @Test
-    void f() throws Exception {
+    void test_typical_scenario() throws Exception {
 
 //        1. when I go to /song then I can see no songs
         mockMvc.perform(get("/songs")
@@ -216,7 +216,6 @@ class HappyPathIntegrationTest extends BaseIntegrationTest {
                 .andExpect(jsonPath("$.artists[*].id", containsInAnyOrder(artistId)))
                 .andExpect(jsonPath("$.artists[*].name", containsInAnyOrder("test artist 1")))
                 .andExpect(jsonPath("$.songs[*].name", containsInAnyOrder("test song 1", "test song 2")));
-
     }
 
 }
