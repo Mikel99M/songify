@@ -17,7 +17,6 @@ public class HappyPathIntegrationTest extends BaseIntegrationTest {
 
     @Test
     void test_typical_scenario() throws Exception {
-
 //        1. when I go to /song then I can see no songs
         mockMvc.perform(get("/songs")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -44,7 +43,7 @@ public class HappyPathIntegrationTest extends BaseIntegrationTest {
                                 """.trim())
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                 )
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.name", is("test song 1")));
 
@@ -64,7 +63,7 @@ public class HappyPathIntegrationTest extends BaseIntegrationTest {
                                 """.trim())
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                 )
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id", is(2)))
                 .andExpect(jsonPath("$.name", is("test song 2")));
 
@@ -178,7 +177,7 @@ public class HappyPathIntegrationTest extends BaseIntegrationTest {
 
 //        14. when I put to /album/1/songs/2 then Song with id 2 ("test song 2") is added to Album with id 1 ("test album 1")
         mockMvc.perform(put("/albums/%d/songs/%d".formatted(albumId, song2Id))
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.album.id", is(albumId)))
                 .andExpect(jsonPath("$.album.title", is("test album 1")))
@@ -187,19 +186,19 @@ public class HappyPathIntegrationTest extends BaseIntegrationTest {
 
 //        15. when I go to /album/1/songs then I can see 2 songs (id 1, id 2)
         mockMvc.perform(get("/albums/%d/songs".formatted(albumId))
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$[*].id", containsInAnyOrder(song1Id, song2Id)));
 
 //        16. when I post to /artist with Artist "test artist 1" then Artist "test artist 1" is returned with id 1
         ResultActions artistPostAction = mockMvc.perform(post("/artists")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("""
-                        {
-                          "name": "test artist 1"
-                        }
-                        """))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "name": "test artist 1"
+                                }
+                                """))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.name", is("test artist 1")));
@@ -210,7 +209,7 @@ public class HappyPathIntegrationTest extends BaseIntegrationTest {
 
 //        17. when I put to /albums/1/artists/1 then Artist with id 1 ("test artist 1") is added to Album with id 1 ("test album 1")
         mockMvc.perform(put("/albums/%d/artists/%d".formatted(albumId, artistId))
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.album.id", is(albumId)))
                 .andExpect(jsonPath("$.artists[*].id", containsInAnyOrder(artistId)))
