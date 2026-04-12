@@ -14,8 +14,8 @@ class AlbumRetriever {
 
     private final AlbumRepository albumRepository;
 
-    public Page<Album> findAllAlbums(final Pageable pageable) {
-        return albumRepository.findAll(pageable);
+    public Page<AlbumInfo> findAllAlbumsProjected(final Pageable pageable) {
+        return albumRepository.findAllProjectedBy(pageable);
     }
 
     public Album findById(final Long albumId) {

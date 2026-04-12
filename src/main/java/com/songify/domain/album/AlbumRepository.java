@@ -1,6 +1,8 @@
 package com.songify.domain.album;
 
 import com.songify.domain.song.Song;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -36,4 +38,6 @@ public interface AlbumRepository extends JpaRepository<Album, Long> {
         where a.id in :id
     """)
     Set<Song> findAllSongInAlbum(Long id);
+
+    Page<AlbumInfo> findAllProjectedBy(Pageable pageable);
 }

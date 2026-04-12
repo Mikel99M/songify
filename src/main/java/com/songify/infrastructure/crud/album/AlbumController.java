@@ -1,6 +1,7 @@
 package com.songify.infrastructure.crud.album;
 
 import com.songify.domain.album.AlbumFacade;
+import com.songify.domain.album.AlbumInfo;
 import com.songify.domain.album.dto.AlbumDto;
 import com.songify.domain.album.dto.AlbumDtoWithArtistsAndSongs;
 import com.songify.domain.album.dto.AlbumRequestDto;
@@ -29,8 +30,8 @@ public class AlbumController {
     private final AlbumFacade albumFacade;
 
     @GetMapping
-    public ResponseEntity<Page<AlbumDto>> getAlbums(@PageableDefault() Pageable pageable) {
-        Page<AlbumDto> result = albumFacade.findAllAlbums(pageable);
+    public ResponseEntity<Page<AlbumInfo>> getAlbums(@PageableDefault() Pageable pageable) {
+        Page<AlbumInfo> result = albumFacade.findAllAlbums(pageable);
         return ResponseEntity.ok().body(result);
     }
 

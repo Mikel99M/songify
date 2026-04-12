@@ -31,8 +31,6 @@ public interface AlbumInfo {
 
         Instant getReleaseDate();
 
-        Long getDuration();
-
         GenreInfo getGenre();
 
         /**

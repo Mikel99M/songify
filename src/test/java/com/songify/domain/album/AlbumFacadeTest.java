@@ -3,6 +3,8 @@ package com.songify.domain.album;
 import com.songify.domain.album.dto.AlbumDto;
 import com.songify.domain.album.dto.AlbumDtoWithArtistsAndSongs;
 import com.songify.domain.album.dto.AlbumRequestDto;
+import com.songify.domain.artist.ArtistMapper;
+import com.songify.domain.song.SongMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -14,10 +16,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -34,6 +40,10 @@ class AlbumFacadeTest {
     AlbumUpdater albumUpdater;
     @Mock
     AlbumMapper albumMapper;
+    @Mock
+    ArtistMapper artistMapper;
+    @Mock
+    SongMapper songMapper;
 
     @InjectMocks
     AlbumFacade albumFacade;
@@ -41,14 +51,21 @@ class AlbumFacadeTest {
     @Test
     void addAlbumWithSong_should_delegate_to_AlbumAdder() {
         // given
-        AlbumRequestDto req = new AlbumRequestDto(1L, "title", Instant.now());
-        Album album = Album.builder().id(10L).title("title").build();
+        Instant now = Instant.parse("2026-04-12T20:00:00Z");
+        AlbumRequestDto req = new AlbumRequestDto(1L, "title", now);
+
+        Album album = Album.builder()
+                .id(10L)
+                .title("title")
+                .songs(new HashSet<>())
+                .artists(new HashSet<>())
+                .build();
 
         AlbumDto albumDto = new AlbumDto(10L, "title");
         AlbumDtoWithArtistsAndSongs expected =
                 new AlbumDtoWithArtistsAndSongs(albumDto, Set.of(), Set.of());
 
-        when(albumAdder.addAlbum(req.songId(), req.title(), req.releaseDate()))
+        when(albumAdder.addAlbum(eq(1L), eq("title"), any(Instant.class)))
                 .thenReturn(album);
 
         when(albumMapper.mapAlbumToAlbumDto(album)).thenReturn(albumDto);
@@ -63,6 +80,7 @@ class AlbumFacadeTest {
 
     @Test
     void addArtistToAlbum_should_delegate_to_AlbumAdder() {
+        // given
         long artistId = 5L;
         long albumId = 10L;
 
@@ -85,6 +103,7 @@ class AlbumFacadeTest {
 
     @Test
     void addSongToAlbum_should_delegate_to_AlbumAdder() {
+        // given
         long songId = 5L;
         long albumId = 10L;
 
@@ -107,32 +126,22 @@ class AlbumFacadeTest {
 
     @Test
     void findAllAlbums_should_delegate_to_AlbumRetriever() {
+        // given
         Pageable pageable = PageRequest.of(0, 10);
 
-        List<Album> albumList = List.of(
-                Album.builder().id(1L).title("A").build(),
-                Album.builder().id(2L).title("B").build()
-        );
+        AlbumInfo album1 = mock(AlbumInfo.class);
+        AlbumInfo album2 = mock(AlbumInfo.class);
 
-        Page<Album> albums = new PageImpl<>(albumList, pageable, albumList.size());
+        Page<AlbumInfo> expectedPage = new PageImpl<>(List.of(album1, album2), pageable, 2);
 
-        List<AlbumDto> expectedDtosList = List.of(
-                new AlbumDto(1L, "A"),
-                new AlbumDto(2L, "B")
-        );
-
-        Page<AlbumDto> expectedDtos = new PageImpl<>(expectedDtosList, pageable, expectedDtosList.size());
-
-        when(albumRetriever.findAllAlbums(pageable)).thenReturn(albums);
-        when(albumMapper.mapAlbumsToAlbumDtos(albums)).thenReturn(expectedDtos);
+        when(albumRetriever.findAllAlbumsProjected(pageable)).thenReturn(expectedPage);
 
         // when
-        Page<AlbumDto> result = albumFacade.findAllAlbums(pageable);
+        Page<AlbumInfo> result = albumFacade.findAllAlbums(pageable);
 
         // then
-        assertThat(result).isEqualTo(expectedDtos);
-        verify(albumRetriever).findAllAlbums(pageable);
-        verify(albumMapper).mapAlbumsToAlbumDtos(albums);
+        assertThat(result).isEqualTo(expectedPage);
+        verify(albumRetriever).findAllAlbumsProjected(pageable);
     }
 
     @Test
@@ -158,6 +167,7 @@ class AlbumFacadeTest {
 
     @Test
     void updateAlbum_should_delegate_to_AlbumUpdater() {
+        // given
         long albumId = 10L;
 
         AlbumRequestDto req = new AlbumRequestDto(1L, "updated", Instant.now());
@@ -177,6 +187,7 @@ class AlbumFacadeTest {
 
     @Test
     void deleteAlbumById_should_delegate_to_AlbumDeleter() {
+        // given
         long albumId = 100L;
 
         // when

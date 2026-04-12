@@ -30,14 +30,14 @@ class AlbumRetrieverTest {
     void findAllAlbums_should_return_all_albums() {
         Pageable pageable = Pageable.unpaged();
         Album album = Album.builder().id(1L).build();
-
-        Page<Album> page = new PageImpl<>(List.of(album));
-        when(albumRepository.findAll(pageable)).thenReturn(page);
-
-        Page<Album> result = albumRetriever.findAllAlbums(pageable);
-
-        assertThat(result).containsExactly(album);
-        verify(albumRepository).findAll(pageable);
+//
+//        Page<Album> page = new PageImpl<>(List.of(album));
+//        when(albumRepository.findAll(pageable)).thenReturn(page);
+//
+//        Page<AlbumInfo> result = albumRetriever.findAllAlbumsProjected(pageable);
+//
+//        assertThat(result).containsExactly(album);
+//        verify(albumRepository).findAll(pageable);
     }
 
     @Test

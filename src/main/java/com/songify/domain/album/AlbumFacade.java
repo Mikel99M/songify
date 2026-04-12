@@ -44,8 +44,8 @@ public class AlbumFacade {
         return toRichDto(saved);
     }
 
-    public Page<AlbumDto> findAllAlbums(Pageable pageable) {
-        return albumMapper.mapAlbumsToAlbumDtos(albumRetriever.findAllAlbums(pageable));
+    public Page<AlbumInfo> findAllAlbums(Pageable pageable) {
+        return albumRetriever.findAllAlbumsProjected(pageable);
     }
 
     public AlbumDtoWithArtistsAndSongs findAlbumWithArtistsAndSongs(Long albumId) {
