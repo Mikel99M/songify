@@ -1,5 +1,5 @@
 package com.songify.domain.album;
-//
+
 import com.songify.domain.genre.Genre;
 import com.songify.domain.artist.Artist;
 import com.songify.domain.song.Song;

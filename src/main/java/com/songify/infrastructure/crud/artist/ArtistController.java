@@ -22,12 +22,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/artists")
-class ArtistController {
+public class ArtistController {
 
     private final ArtistFacade artistFacade;
 
     @GetMapping
-    ResponseEntity<AllArtistsDto> getArtists(@PageableDefault(page = 0, size = 10) Pageable pageable) {
+    ResponseEntity<AllArtistsDto> getArtists(@PageableDefault() Pageable pageable) {
         AllArtistsDto result = new AllArtistsDto(artistFacade.findAllArtists(pageable));
         return ResponseEntity.ok().body(result);
     }

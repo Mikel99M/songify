@@ -33,9 +33,6 @@ class SongAssignerTest {
     @Mock
     GenreRepository genreRepository;
 
-    @Mock
-    SongRepository songRepository;
-
     @InjectMocks
     SongAssigner songAssigner;
 

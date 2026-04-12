@@ -24,9 +24,6 @@ class SongAdderTest {
     @Mock
     SongMapper songMapper;
 
-    @Mock
-    SongAssigner songAssigner;
-
     @InjectMocks
     SongAdder songAdder;
 

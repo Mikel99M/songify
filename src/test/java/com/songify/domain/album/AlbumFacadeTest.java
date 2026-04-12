@@ -3,8 +3,6 @@ package com.songify.domain.album;
 import com.songify.domain.album.dto.AlbumDto;
 import com.songify.domain.album.dto.AlbumDtoWithArtistsAndSongs;
 import com.songify.domain.album.dto.AlbumRequestDto;
-import com.songify.domain.artist.ArtistMapper;
-import com.songify.domain.song.SongMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -34,11 +32,6 @@ class AlbumFacadeTest {
     AlbumDeleter albumDeleter;
     @Mock
     AlbumUpdater albumUpdater;
-
-    @Mock
-    ArtistMapper artistMapper;
-    @Mock
-    SongMapper songMapper;
     @Mock
     AlbumMapper albumMapper;
 

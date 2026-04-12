@@ -1,4 +1,4 @@
-package com.songify.infrastructure.crud.song.controller;
+package com.songify.infrastructure.crud.song;
 
 import com.songify.domain.song.SongFacade;
 import com.songify.domain.song.dto.SongDto;
@@ -17,26 +17,24 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 
 @RestController
 @RequestMapping("/songs")
 @AllArgsConstructor
-public class SongRestController {
+public class SongController {
 
     private final SongFacade songFacade;
 
     @GetMapping
-    ResponseEntity<Page<SongDto>> getAllSongs(@PageableDefault(page = 0, size = 10) Pageable pageable) {
+    ResponseEntity<Page<SongDto>> getAllSongs(@PageableDefault() Pageable pageable) {
         Page<SongDto> response = songFacade.findAll(pageable);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<SongDto> getSongById(@PathVariable Long id, @RequestHeader(required = false) String requestId) {
+    ResponseEntity<SongDto> getSongById(@PathVariable Long id) {
         SongDto response = songFacade.findSong(id);
         return ResponseEntity.ok(response);
     }
@@ -44,7 +42,7 @@ public class SongRestController {
     @PostMapping
     ResponseEntity<SongDto> postSong(@RequestBody @Valid SongRequestDto request) {
         SongDto response = songFacade.addSong(request);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.status(201).body(response);
     }
 
     @DeleteMapping("/{id}")

@@ -24,12 +24,12 @@ import java.util.Set;
 @RestController
 @RequestMapping("/albums")
 @AllArgsConstructor
-class AlbumController {
+public class AlbumController {
 
     private final AlbumFacade albumFacade;
 
     @GetMapping
-    public ResponseEntity<Page<AlbumDto>> getAlbums(@PageableDefault(page = 0, size = 10) Pageable pageable) {
+    public ResponseEntity<Page<AlbumDto>> getAlbums(@PageableDefault() Pageable pageable) {
         Page<AlbumDto> result = albumFacade.findAllAlbums(pageable);
         return ResponseEntity.ok().body(result);
     }

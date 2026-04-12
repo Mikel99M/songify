@@ -1,6 +1,5 @@
 package com.songify.domain.song;
 
-import com.songify.domain.album.Album;
 import com.songify.domain.genre.Genre;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,8 +22,6 @@ public interface SongRepository extends JpaRepository<Song, Long> {
     @Modifying
     @Query("delete from Song s where s.id in :ids")
     int deleteByIdIn(Collection<Long> ids);
-
-    boolean existsByAlbum(Album album);
 
     boolean existsByGenre(Genre genre);
 }

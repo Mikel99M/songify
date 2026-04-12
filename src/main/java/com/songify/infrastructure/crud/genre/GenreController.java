@@ -27,7 +27,7 @@ public class GenreController {
     private final GenreFacade genreFacade;
 
     @GetMapping
-    ResponseEntity<Set<GenreDto>> getGenres(@PageableDefault(size = 10) Pageable pageable) {
+    ResponseEntity<Set<GenreDto>> getGenres(@PageableDefault() Pageable pageable) {
         return ResponseEntity.ok(genreFacade.findAllGenres(pageable));
     }
 

@@ -22,9 +22,3 @@ services:
     environment:
       PGADMIN_DEFAULT_EMAIL: a@a.pl
       PGADMIN_DEFAULT_PASSWORD: admin
-#    volumes:
-#      - pgadmin-data:/var/lib/pgadmin
-
-volumes:
-  local_pgdata:
-#  pgadmin-data:

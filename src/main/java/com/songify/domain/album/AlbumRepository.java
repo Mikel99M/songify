@@ -20,10 +20,10 @@ public interface AlbumRepository extends JpaRepository<Album, Long> {
     Optional<Album> findAlbumByIdWithSongsAndArtists(Long id);
 
     @Query("""
-            select a from Album a 
-            inner join a.artists artists 
+            select a from Album a\s
+            inner join a.artists artists\s
             where artists.id = :id
-            """)
+           \s""")
     Set<Album> findAllAlbumsByArtistId(@Param("id") Long id);
 
     @Modifying
