@@ -20,10 +20,9 @@ Build and start all services:
 docker-compose up --build
 ```
 Access the application:
-
-Backend API: http://localhost:8080
-
-Swagger UI: http://localhost:8080/swagger-ui/index.html
+* **Backend API:** http://localhost:8080
+* **Swagger UI:** http://localhost:8080/swagger-ui/index.html
+* **Database Management (pgAdmin):** http://localhost:25110 (User: a@a.pl, Pass: admin)
 
 ## Technical Stack
 Backend: Java 17, Spring Boot 3.x
