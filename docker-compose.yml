@@ -22,3 +22,18 @@ services:
     environment:
       PGADMIN_DEFAULT_EMAIL: a@a.pl
       PGADMIN_DEFAULT_PASSWORD: admin
+
+  app:
+    build: .
+    container_name: songify_app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/postgres
+      - SPRING_DATASOURCE_USERNAME=user
+      - SPRING_DATASOURCE_PASSWORD=admin
+
+volumes:
+  local_pgdata:
